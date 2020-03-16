@@ -167,12 +167,14 @@ void app_main()
         if (line == NULL) { /* Break on EOF or error */
             break;
         }
-        /* Add the command to the history */
-        linenoiseHistoryAdd(line);
+        /* Add the command to the history if not empty*/
+        if(strlen(line) > 0) {
+            linenoiseHistoryAdd(line);
 #if CONFIG_STORE_HISTORY
-        /* Save command history to filesystem */
-        linenoiseHistorySave(HISTORY_PATH);
+            /* Save command history to filesystem */
+            linenoiseHistorySave(HISTORY_PATH);
 #endif
+        }
 
         /* Try to run the command */
         int ret;
