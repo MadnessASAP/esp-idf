@@ -76,11 +76,13 @@ esp_err_t esp_console_deinit()
         return ESP_ERR_INVALID_STATE;
     }
     free(s_tmp_line_buf);
+    s_tmp_line_buf = NULL; // bugfix, ensure that the buffer is marked as invalid
     cmd_item_t *it, *tmp;
     SLIST_FOREACH_SAFE(it, &s_cmd_list, next, tmp) {
         free(it->hint);
         free(it);
     }
+    memset(&s_cmd_list, 0, sizeof(s_cmd_list)); // bugfix see above
     return ESP_OK;
 }
 
