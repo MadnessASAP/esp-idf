@@ -890,9 +890,9 @@ static int linenoiseEdit(char *buf, size_t buflen, const char *prompt)
 
 int linenoiseProbe() {
     /* Switch to non-blocking mode */
-    int flags = fcntl(STDIN_FILENO, F_GETFL);
+    int flags = fcntl(fileno(stdin), F_GETFL);
     flags |= O_NONBLOCK;
-    int res = fcntl(STDIN_FILENO, F_SETFL, flags);
+    int res = fcntl(fileno(stdin), F_SETFL, flags);
     if (res != 0) {
         return -1;
     }
@@ -911,7 +911,7 @@ int linenoiseProbe() {
     }
     /* Restore old mode */
     flags &= ~O_NONBLOCK;
-    res = fcntl(STDIN_FILENO, F_SETFL, flags);
+    res = fcntl(fileno(stdin), F_SETFL, flags);
     if (res != 0) {
         return -1;
     }
